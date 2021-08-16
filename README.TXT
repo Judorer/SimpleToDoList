@@ -12,3 +12,7 @@ Can't:
 - Make super complex daily plans with 50 projects happening simultaneously, this is supposed to be simple for the average person
 - resize window L
 - most likely will only work properly on Windows because i havent tested on any other platform SORRY!
+
+
+actually unbelievable that i cant find a damn to do list that has these two teeny tiny features on the internet but they have hardcore project management
+mad weird
