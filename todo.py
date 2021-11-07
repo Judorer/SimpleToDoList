@@ -3,13 +3,16 @@ import pystray
 from PIL import Image, ImageTk
 
 array = []
+textarray = []
+
 
 class checkbox():
     def __init__(self, text):
         self.text = text
-        self = tkinter.Checkbutton(root, justify="left", text=self.text, command = lambda : forget(self))
+        self = tkinter.Checkbutton(root, justify="left", text=self.text, command = lambda : forget(self, text))
         self.pack(side=tkinter.TOP, anchor=tkinter.NW)
         array.append(self)
+        textarray.append(text)
 
 
 
@@ -29,8 +32,15 @@ bool1.set(True)
 root.resizable(width=False, height=False)
 root.resizable(0, 0)
 
-def exit_window(icon, item):
-    icon.stop()
+
+def exit_window(icon=None, item=None):
+    if icon:
+        icon.stop()
+    with open('save.txt', 'a') as txt:
+        txt.truncate(0)
+        for line in textarray:
+            txt.write(line + "\n")
+
     root.destroy()
 
 def show_window(icon, item):
@@ -47,22 +57,27 @@ def hide_window():
     else:
         root.destroy()
 
-
 def add_task(text='', event=None):
     text = txt_input.get()
     if text:
         checkbox(text)
     txt_input.delete(0, 'end')
 
+
+
 def reset_all():
     for i in array:
         i.pack_forget()
     array.clear()
+    textarray.clear()
     txt_input.delete(0, 'end')
 
-def forget(self):
+def forget(self, text):
     self.pack_forget()
     array.remove(self)
+    textarray.remove(text)
+
+
 frame1 = tkinter.Frame(root)
 frame2 = tkinter.Frame(root)
 
@@ -79,7 +94,7 @@ settings = tkinter.Menu(menubar, tearoff=0)
 checker = settings.add_checkbutton(label="Always Shown", onvalue=1, offvalue=0, variable=bool, command=checking)
 tray = settings.add_checkbutton(label="Minimize to Tray", onvalue=1, offvalue=0, variable=bool1)
 menubar.add_cascade(label="Settings", menu=settings)
-menubar.add_command(label="Exit", command=root.quit)
+menubar.add_command(label="Exit", command=exit_window)
 
 txt_input = tkinter.Entry(frame1,width=44)
 txt_input.grid(row=0, column=0)
@@ -97,4 +112,11 @@ root.bind('<Return>', add_task)
 root.protocol("WM_DELETE_WINDOW", hide_window)
 
 root.config(menu=menubar)
+
+with open('save.txt') as text_file:
+    text_file = text_file.readlines()
+    for line in text_file:
+        line = line.strip()
+        checkbox(line)
+
 root.mainloop()
