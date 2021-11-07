@@ -16,3 +16,4 @@ Extremely barebones thing bcuz I couldnt find an todolist with the like 2 featur
 
 
 
+compile command: pyinstaller --noconfirm --onedir --windowed --icon "icon.ico" --add-data "icon.ico;." --add-data "icon.png;." --add-data "save.TXT;." --hidden-import "pystray._win32" "todo.py"
